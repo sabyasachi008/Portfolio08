@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Code2, Sparkles } from "lucide-react";
 import ProjectCard, { Project } from "./ProjectCard";
+import GithubGraph from "./GithubGraph";
 
 const projectsData: Project[] = [
   {
@@ -181,6 +182,8 @@ export default function Projects() {
             </div>
           ))}
         </div>
+
+        <GithubGraph />
       </div>
     </section>
   );

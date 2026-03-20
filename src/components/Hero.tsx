@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Terminal, Activity, Database, Server, Cloud } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+import { ArrowRight, Terminal, Activity, Database, Server, Cloud, FileText } from "lucide-react";
+import Link from "next/link";
 
 const stats = [
   { 
@@ -31,7 +32,7 @@ const stats = [
 ];
 
 export default function Hero() {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
@@ -39,7 +40,7 @@ export default function Hero() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
   };
@@ -110,21 +111,31 @@ export default function Hero() {
         {/* CTAs */}
         <motion.div
           variants={itemVariants}
-          className="mt-12 flex flex-col sm:flex-row justify-center gap-6 w-full sm:w-auto"
+          className="mt-12 flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6 w-full sm:w-auto"
         >
           <a
             href="#projects"
-            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-sm font-bold bg-[#00E5FF] text-[#0A0F17] overflow-hidden transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,229,255,0.3)]"
+            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-sm font-bold bg-[#00E5FF] text-[#0A0F17] overflow-hidden transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,229,255,0.3)] w-full sm:w-auto"
           >
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
             <span className="relative flex items-center gap-2">View Projects <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" /></span>
           </a>
-          <a
-            href="#contact"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-sm font-bold glass border border-white/10 text-white hover:bg-white/10 transition-all hover:scale-105 backdrop-blur-md"
-          >
-            Get in Touch
-          </a>
+          
+          <div className="flex w-full sm:w-auto gap-4 md:gap-6">
+            <Link
+              href="/resume"
+              className="group flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-sm font-bold glass border border-[#FF9900]/30 text-white hover:bg-[#FF9900]/10 hover:border-[#FF9900]/50 transition-all hover:scale-105 backdrop-blur-md shadow-[0_0_15px_rgba(255,153,0,0.1)]"
+            >
+              <FileText size={18} className="text-[#FF9900] group-hover:scale-110 transition-transform" /> Resume
+            </Link>
+            
+            <a
+              href="#contact"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-sm font-bold glass border border-white/10 text-white hover:bg-white/10 transition-all hover:scale-105 backdrop-blur-md"
+            >
+              Contact
+            </a>
+          </div>
         </motion.div>
 
         {/* Metrics Grid */}
