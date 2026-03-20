@@ -5,6 +5,12 @@ import { motion } from "framer-motion";
 import { Github } from "lucide-react";
 
 export default function GithubGraph() {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Use explicit theme configuration for dark mode to match portfolio design
   const explicitTheme = {
     light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
@@ -47,15 +53,21 @@ export default function GithubGraph() {
 
         <div className="w-full overflow-x-auto pb-4 custom-scrollbar">
           <div className="min-w-[800px] flex justify-center">
-            <GitHubCalendar 
-              username="sabyasachi008" 
-              colorScheme="dark"
-              theme={explicitTheme}
-              fontSize={14}
-              blockSize={13}
-              blockMargin={5}
-              blockRadius={3}
-            />
+            {mounted ? (
+              <GitHubCalendar 
+                username="sabyasachi008" 
+                colorScheme="dark"
+                theme={explicitTheme}
+                fontSize={14}
+                blockSize={13}
+                blockMargin={5}
+                blockRadius={3}
+              />
+            ) : (
+              <div className="w-full h-[150px] animate-pulse bg-white/5 rounded-xl border border-white/5 flex items-center justify-center">
+                <p className="text-white/20 text-xs font-mono tracking-widest uppercase">Loading Contribution Data...</p>
+              </div>
+            )}
           </div>
         </div>
         
