@@ -225,7 +225,6 @@ export default function DeveloperTerminal() {
               disabled={loading}
               className="flex-1 bg-transparent border-none outline-none text-white/90 tracking-wide font-mono w-full min-w-[50px] disabled:opacity-50"
               autoComplete="off"
-              autoFocus
               spellCheck="false"
             />
             

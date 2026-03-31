@@ -3,23 +3,90 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { 
+  Home, 
+  Briefcase, 
+  Code2, 
+  Wrench, 
+  Award, 
+  BookOpen, 
+  Mail 
+} from "lucide-react";
 
 const navItems = [
-  { name: "Home", path: "/" },
-  { name: "Experience", path: "#experience" },
-  { name: "Projects", path: "#projects" },
-  { name: "Skills", path: "#skills" },
-  { name: "Certifications", path: "#certifications" },
-  { name: "Education", path:"#education"},
-  { name: "Contact", path: "#contact" },
+  { name: "Home", path: "/", icon: Home },
+  { name: "Experience", path: "#experience", icon: Briefcase },
+  { name: "Projects", path: "#projects", icon: Code2 },
+  { name: "Skills", path: "#skills", icon: Wrench },
+  { name: "Certifications", path: "#certifications", icon: Award },
+  { name: "Education", path:"#education", icon: BookOpen },
+  { name: "Contact", path: "#contact", icon: Mail },
 ];
+
+function DockIcon({ item, isActive, isScrolled }: { item: any, isActive: boolean, isScrolled: boolean }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const Icon = item.icon;
+
+  return (
+    <Link
+      href={item.path}
+      className="relative flex flex-col items-center justify-center outline-none group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <motion.div
+        whileHover={{ scale: 1.25, y: 4 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        className={`flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-md transition-all duration-300 ${
+          isActive ? "bg-white/10 border-[#00E5FF]/30" : "hover:bg-white/15 hover:border-white/20"
+        } ${isScrolled ? "w-9 h-9 sm:w-10 sm:h-10" : "w-11 h-11 sm:w-12 sm:h-12"}`}
+      >
+        <Icon 
+          className={`transition-colors ${
+            isActive ? "text-[#00E5FF] drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]" : "text-white/60 group-hover:text-white"
+          } ${isScrolled ? "w-4 h-4" : "w-5 h-5 sm:w-6 sm:h-6"}`} 
+        />
+        {isActive && (
+          <motion.div
+            layoutId="activeDockDot"
+            className="absolute -bottom-2 w-1 h-1 rounded-full bg-[#00E5FF] shadow-[0_0_8px_#00E5FF]"
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          />
+        )}
+      </motion.div>
+
+      {/* Tooltip */}
+      <motion.div
+        initial={{ opacity: 0, y: -10, scale: 0.8 }}
+        animate={{ 
+          opacity: isHovered ? 1 : 0, 
+          y: isHovered ? 8 : -10, 
+          scale: isHovered ? 1 : 0.8 
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className="absolute w-max top-full mt-1 px-3 py-1.5 bg-[#0A0F17]/95 border border-white/10 text-white text-[11px] font-bold tracking-wide rounded-lg shadow-xl pointer-events-none z-50 flex items-center justify-center"
+      >
+        {item.name}
+      </motion.div>
+    </Link>
+  );
+}
 
 export default function Navbar() {
   const pathname = usePathname();
   const [activeHash, setActiveHash] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
+      // Toggle shrunk state
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+
       // If at the very top, highlight Home
       if (window.scrollY < 100) {
         setActiveHash("/");
@@ -37,10 +104,8 @@ export default function Navbar() {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // Distance from the top third of the viewport
           const distance = Math.abs(rect.top - window.innerHeight / 3);
           
-          // If the element's top is above the middle of screen, and its bottom is visible
           if (rect.top <= window.innerHeight / 2 && rect.bottom >= 0) {
             if (distance < minDistance) {
               minDistance = distance;
@@ -50,13 +115,11 @@ export default function Navbar() {
         }
       });
 
-      // Update if we found a valid section in bounds
       if (currentHash) {
         setActiveHash(currentHash);
       }
     };
 
-    // Attach listener
     window.addEventListener("scroll", handleScroll, { passive: true });
     // Trigger check immediately to set initial state
     setTimeout(handleScroll, 100);
@@ -68,38 +131,26 @@ export default function Navbar() {
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-[95%] sm:w-[90%] md:w-auto"
+      transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-max"
     >
-      <div className="rounded-2xl md:rounded-full px-5 md:px-7 py-3.5 flex items-center justify-center gap-3 md:gap-6 shadow-[0_0_20px_rgba(0,0,0,0.5)] bg-[#0A0F17]/85 backdrop-blur-xl border border-white/10 flex-wrap">
+      <motion.div 
+        animate={{
+          backgroundColor: isScrolled ? "rgba(10, 15, 23, 0.4)" : "rgba(10, 15, 23, 0.85)",
+        }}
+        transition={{ duration: 0.3 }}
+        className={`flex items-center transition-all duration-300 rounded-[2rem] backdrop-blur-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)] relative pointer-events-auto ${
+          isScrolled ? "gap-1.5 sm:gap-2 px-2 py-2" : "gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3"
+        }`}
+      >
+        <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-r from-transparent via-[#00E5FF]/5 to-transparent pointer-events-none"></div>
         {navItems.map((item) => {
-          // If activeHash is determined by scroll, use it. Otherwise fallback to pathname matching.
           const isActive = activeHash ? activeHash === item.path : pathname === item.path;
-          
           return (
-            <Link
-              key={item.name}
-              href={item.path}
-              target={item.name === "Resume" ? "_blank" : undefined}
-              rel={item.name === "Resume" ? "noopener noreferrer" : undefined}
-              className={`relative text-[11px] sm:text-xs md:text-sm font-bold tracking-wide transition-all duration-300 py-1 ${
-                isActive 
-                  ? "text-[#00E5FF] drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]" 
-                  : "text-white/60 hover:text-white"
-              }`}
-            >
-              {item.name}
-              {isActive && item.name !== "Resume" && (
-                <motion.div
-                  layoutId="activeNavIndicator"
-                  className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-[#00E5FF] shadow-[0_0_8px_#00E5FF]"
-                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                />
-              )}
-            </Link>
+            <DockIcon key={item.name} item={item} isActive={isActive} isScrolled={isScrolled} />
           );
         })}
-      </div>
+      </motion.div>
     </motion.nav>
   );
 }
