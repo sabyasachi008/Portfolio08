@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Download, FileText } from "lucide-react";
 import Link from "next/link";
 import FloatingNodes from "@/components/FloatingNodes";
-import Navbar from "@/components/Navbar";
 
 export default function ResumePage() {
   // Use /preview for the iframe to embed google drive directly
@@ -15,7 +14,6 @@ export default function ResumePage() {
   return (
     <main className="flex min-h-screen flex-col items-center overflow-x-hidden w-full relative">
       <FloatingNodes />
-      <Navbar />
 
       <div className="w-full max-w-5xl mx-auto px-6 py-24 relative z-10 flex flex-col items-center">
         <motion.div

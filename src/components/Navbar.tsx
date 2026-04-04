@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
@@ -10,7 +10,9 @@ import {
   Wrench, 
   Award, 
   BookOpen, 
-  Mail 
+  Mail,
+  Menu,
+  X
 } from "lucide-react";
 
 const navItems = [
@@ -23,9 +25,10 @@ const navItems = [
   { name: "Contact", path: "#contact", icon: Mail },
 ];
 
-function DockIcon({ item, isActive, isScrolled }: { item: any, isActive: boolean, isScrolled: boolean }) {
+function DockIcon({ item, isActive, layoutIdPrefix }: { item: any, isActive: boolean, layoutIdPrefix: string }) {
   const [isHovered, setIsHovered] = useState(false);
   const Icon = item.icon;
+  const isExpanded = isActive || isHovered;
 
   return (
     <Link
@@ -35,39 +38,46 @@ function DockIcon({ item, isActive, isScrolled }: { item: any, isActive: boolean
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div
-        whileHover={{ scale: 1.25, y: 4 }}
+        layout
+        whileHover={{ y: 0 }}
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        className={`flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-md transition-all duration-300 ${
+        className={`flex flex-row items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-md overflow-hidden transition-colors duration-300 ${
           isActive ? "bg-white/10 border-[#00E5FF]/30" : "hover:bg-white/15 hover:border-white/20"
-        } ${isScrolled ? "w-9 h-9 sm:w-10 sm:h-10" : "w-11 h-11 sm:w-12 sm:h-12"}`}
+        } h-11 sm:h-12 ${isExpanded ? "px-4 gap-2" : "w-11 sm:w-12 px-0 gap-0"}`}
       >
-        <Icon 
-          className={`transition-colors ${
-            isActive ? "text-[#00E5FF] drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]" : "text-white/60 group-hover:text-white"
-          } ${isScrolled ? "w-4 h-4" : "w-5 h-5 sm:w-6 sm:h-6"}`} 
-        />
+        <motion.div layout className="flex items-center justify-center">
+          <Icon 
+            className={`transition-colors ${
+              isActive ? "text-[#00E5FF] drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]" : "text-white/60 group-hover:text-white"
+            } w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0`} 
+          />
+        </motion.div>
+        
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.span
+              layout
+              initial={{ opacity: 0, width: 0, marginLeft: 0 }}
+              animate={{ opacity: 1, width: "auto", marginLeft: 4 }}
+              exit={{ opacity: 0, width: 0, marginLeft: 0 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className={`text-xs sm:text-sm font-semibold tracking-wide whitespace-nowrap ${
+                isActive ? "text-[#00E5FF] drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]" : "text-white group-hover:text-white"
+              }`}
+            >
+              {item.name}
+            </motion.span>
+          )}
+        </AnimatePresence>
+
         {isActive && (
           <motion.div
-            layoutId="activeDockDot"
-            className="absolute -bottom-2 w-1 h-1 rounded-full bg-[#00E5FF] shadow-[0_0_8px_#00E5FF]"
+            layoutId={`${layoutIdPrefix}-activeDockDot`}
+            className="absolute -bottom-2.5 w-1.5 h-1.5 rounded-full bg-[#00E5FF] shadow-[0_0_8px_#00E5FF]"
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
           />
         )}
-      </motion.div>
-
-      {/* Tooltip */}
-      <motion.div
-        initial={{ opacity: 0, y: -10, scale: 0.8 }}
-        animate={{ 
-          opacity: isHovered ? 1 : 0, 
-          y: isHovered ? 8 : -10, 
-          scale: isHovered ? 1 : 0.8 
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="absolute w-max top-full mt-1 px-3 py-1.5 bg-[#0A0F17]/95 border border-white/10 text-white text-[11px] font-bold tracking-wide rounded-lg shadow-xl pointer-events-none z-50 flex items-center justify-center"
-      >
-        {item.name}
       </motion.div>
     </Link>
   );
@@ -77,6 +87,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [activeHash, setActiveHash] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isFabHovered, setIsFabHovered] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -128,29 +139,73 @@ export default function Navbar() {
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
-      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-max"
-    >
-      <motion.div 
-        animate={{
-          backgroundColor: isScrolled ? "rgba(10, 15, 23, 0.4)" : "rgba(10, 15, 23, 0.85)",
-        }}
-        transition={{ duration: 0.3 }}
-        className={`flex items-center transition-all duration-300 rounded-[2rem] backdrop-blur-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)] relative pointer-events-auto ${
-          isScrolled ? "gap-1.5 sm:gap-2 px-2 py-2" : "gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3"
-        }`}
-      >
-        <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-r from-transparent via-[#00E5FF]/5 to-transparent pointer-events-none"></div>
-        {navItems.map((item) => {
-          const isActive = activeHash ? activeHash === item.path : pathname === item.path;
-          return (
-            <DockIcon key={item.name} item={item} isActive={isActive} isScrolled={isScrolled} />
-          );
-        })}
-      </motion.div>
-    </motion.nav>
+    <>
+      {/* Top Dock (Hero State) */}
+      <AnimatePresence>
+        {!isScrolled && (
+          <motion.nav
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut", delay: 0.1 }}
+            className="fixed top-6 left-1/2 transform -translate-x-1/2 z-[100] w-max"
+          >
+            <motion.div 
+              className="flex items-center transition-all duration-300 rounded-[2rem] backdrop-blur-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)] relative pointer-events-auto gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 bg-[#0A0F17]/85"
+            >
+              <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-r from-transparent via-[#00E5FF]/5 to-transparent pointer-events-none"></div>
+              {navItems.map((item) => {
+                const isActive = activeHash ? activeHash === item.path : pathname === item.path;
+                return (
+                  <DockIcon key={item.name} item={item} isActive={isActive} layoutIdPrefix="top" />
+                );
+              })}
+            </motion.div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Action Button (Scrolled State) */}
+      <AnimatePresence>
+        {isScrolled && (
+          <motion.nav
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-3 pointer-events-auto"
+            onMouseEnter={() => setIsFabHovered(true)}
+            onMouseLeave={() => setIsFabHovered(false)}
+          >
+            <AnimatePresence>
+              {isFabHovered && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: "bottom right" }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="flex flex-col items-end gap-2 p-2 rounded-[2rem] backdrop-blur-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)] bg-[#0A0F17]/85"
+                >
+                  {navItems.map((item) => {
+                    const isActive = activeHash ? activeHash === item.path : pathname === item.path;
+                    return (
+                      <DockIcon key={item.name} item={item} isActive={isActive} layoutIdPrefix="fab" />
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#00E5FF] to-[#00b8d4] shadow-[0_0_20px_rgba(0,229,255,0.4)] flex items-center justify-center text-[#0A0F17] hover:shadow-[0_0_30px_rgba(0,229,255,0.6)] transition-shadow border-2 border-white/10"
+            >
+              {isFabHovered ? <X size={26} strokeWidth={2.5} /> : <Menu size={26} strokeWidth={2.5} />}
+            </motion.button>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

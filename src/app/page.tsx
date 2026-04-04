@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Experience from "@/components/Experience";
 import Education from "@/components/Education";
@@ -15,7 +14,6 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center overflow-x-hidden w-full relative">
       <FloatingNodes />
-      <Navbar />
       
       {/* 
         All sections are wrapped in this main container with consistent, 
