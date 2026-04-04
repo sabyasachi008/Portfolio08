@@ -21,7 +21,7 @@ const skillCategories = [
     title: "Cloud & Data",
     icon: <Database className="w-6 h-6 text-emerald-400" />,
     skills: ["AWS", "PySpark", "Apache Airflow", "SQL", "MongoDB"],
-    gridClass: "md:col-span-3 lg:col-span-1"
+    gridClass: "md:col-span-1 lg:col-span-1"
   }
 ];
 

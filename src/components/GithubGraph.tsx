@@ -2,19 +2,25 @@
 import React from "react";
 import { GitHubCalendar } from "react-github-calendar";
 import { motion } from "framer-motion";
-import { Github } from "lucide-react";
+import { Github, RefreshCw } from "lucide-react";
+
+const CACHE_KEY = "github-calendar-sabyasachi008";
 
 export default function GithubGraph() {
   const [mounted, setMounted] = React.useState(false);
+  const [cacheVersion, setCacheVersion] = React.useState(0);
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Use explicit theme configuration for dark mode to match portfolio design
+  const clearCache = () => {
+    localStorage.removeItem(CACHE_KEY);
+    setCacheVersion(v => v + 1);
+  };
+
   const explicitTheme = {
     light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
-    // Custom blue/teal gradient to match #00E5FF neon aesthetic
     dark: ['#161B22', '#004d55', '#008796', '#00b8d4', '#00E5FF'],
   };
 
@@ -27,7 +33,6 @@ export default function GithubGraph() {
         transition={{ duration: 0.6 }}
         className="glass rounded-3xl p-8 md:p-12 flex flex-col items-center bg-[#0A0F17]/80 backdrop-blur-xl border border-white/10 shadow-2xl relative overflow-hidden group"
       >
-        {/* Glow Effects */}
         <div className="absolute top-0 right-1/4 w-64 h-64 bg-[#00E5FF] rounded-full blur-[120px] opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none" />
         
         <div className="flex flex-col md:flex-row items-center justify-between w-full mb-10 gap-6">
@@ -41,17 +46,27 @@ export default function GithubGraph() {
             </div>
           </div>
           
-          <a
-            href="https://github.com/sabyasachi008"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-lg bg-white/5 text-white hover:bg-white/10 border border-white/10 transition-colors text-sm font-semibold flex items-center gap-2"
-          >
-            Follow on GitHub
-          </a>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={clearCache}
+              className="px-3 py-2 rounded-lg bg-white/5 text-white/60 hover:text-white hover:bg-white/10 border border-white/10 transition-colors text-xs font-medium flex items-center gap-2"
+              title="Refresh contributions"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              Refresh
+            </button>
+            <a
+              href="https://github.com/sabyasachi008"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 rounded-lg bg-white/5 text-white hover:bg-white/10 border border-white/10 transition-colors text-sm font-semibold flex items-center gap-2"
+            >
+              Follow on GitHub
+            </a>
+          </div>
         </div>
 
-        <div className="w-full overflow-x-auto pb-4 custom-scrollbar">
+        <div className="w-full overflow-x-auto pb-4 custom-scrollbar" key={cacheVersion}>
           <div className="min-w-[800px] flex justify-center">
             {mounted ? (
               <GitHubCalendar 
@@ -71,23 +86,7 @@ export default function GithubGraph() {
           </div>
         </div>
         
-        <style jsx global>{`
-          .custom-scrollbar::-webkit-scrollbar {
-            height: 6px;
-          }
-          .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-          }
-          .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(0, 229, 255, 0.2);
-            border-radius: 10px;
-          }
-          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 229, 255, 0.4);
-          }
-        `}</style>
-      </motion.div>
+</motion.div>
     </div>
   );
 }

@@ -17,7 +17,7 @@ export default function Footer() {
   return (
     <footer className="w-full glass-nav border-t border-white/5 py-8 mt-24">
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-[var(--color-foreground)]/70">
+        <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-[#ededed]/70">
           <span className="flex items-center gap-2">
             <Activity className="w-4 h-4 text-[#00E5FF] animate-pulse" />
             System Uptime: {uptime}
@@ -34,7 +34,7 @@ export default function Footer() {
             href="https://github.com/sabyasachi008"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[var(--color-foreground)]/70 hover:text-[#00E5FF] transition-colors"
+            className="text-[#ededed]/70 hover:text-[#00E5FF] transition-colors"
           >
             <Github className="w-5 h-5" />
           </a>
@@ -42,7 +42,7 @@ export default function Footer() {
             href="https://www.linkedin.com/in/sabyasachig008/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[var(--color-foreground)]/70 hover:text-[#00E5FF] transition-colors"
+            className="text-[#ededed]/70 hover:text-[#00E5FF] transition-colors"
           >
             <Linkedin className="w-5 h-5" />
           </a>
@@ -50,7 +50,7 @@ export default function Footer() {
             href="https://leetcode.com/u/sabyasachi099/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[var(--color-foreground)]/70 hover:text-[#00E5FF] transition-colors"
+            className="text-[#ededed]/70 hover:text-[#00E5FF] transition-colors"
             title="LeetCode"
           >
             <Trophy className="w-5 h-5" />

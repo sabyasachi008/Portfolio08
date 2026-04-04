@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { Code2, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import ProjectCard, { Project } from "./ProjectCard";
 import GithubGraph from "./GithubGraph";
 

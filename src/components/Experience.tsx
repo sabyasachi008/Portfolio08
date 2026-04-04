@@ -37,7 +37,7 @@ export default function Experience() {
         <p className="text-white/60">Driving end-to-end impact in scalable environments.</p>
       </motion.div>
 
-      <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent">
+      <div className="space-y-12 relative before:absolute before:inset-0 before:left-4 md:before:left-1/2 before:-translate-x-px md:before:-translate-x-1/2 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent">
         {experiences.map((exp, index) => (
           <motion.div
             key={index}

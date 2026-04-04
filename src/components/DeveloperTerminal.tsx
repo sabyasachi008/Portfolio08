@@ -98,7 +98,7 @@ export default function DeveloperTerminal() {
             />
           </div>
         );
-      } catch (err) {
+      } catch {
         output = "Failed to fetch /api/skills. Server might be down.";
         isError = true;
       }
@@ -230,6 +230,7 @@ export default function DeveloperTerminal() {
             
             {loading && (
               <motion.div
+                key={String(loading)}
                 animate={{ rotate: 360 }}
                 transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
                 className="w-3 h-3 absolute right-0 border border-t-transparent border-[#00E5FF] rounded-full"

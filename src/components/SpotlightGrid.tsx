@@ -43,7 +43,7 @@ export default function SpotlightGrid() {
           `,
           backgroundSize: "40px 40px",
           maskImage: useMotionTemplate`radial-gradient(circle 400px at ${mouseX}px ${mouseY}px, black 0%, transparent 100%)`,
-          WebkitMaskImage: useMotionTemplate`radial-gradient(circle 400px at ${mouseX}px ${mouseY}px, black 0%, transparent 100%)`,
+
         }}
       />
     </div>

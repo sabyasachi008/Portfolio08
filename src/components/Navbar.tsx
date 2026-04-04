@@ -25,7 +25,7 @@ const navItems = [
   { name: "Contact", path: "#contact", icon: Mail },
 ];
 
-function DockIcon({ item, isActive, layoutIdPrefix }: { item: any, isActive: boolean, layoutIdPrefix: string }) {
+function DockIcon({ item, isActive, layoutIdPrefix }: { item: { name: string; path: string; icon: React.ComponentType<{ className?: string }> }, isActive: boolean, layoutIdPrefix: string }) {
   const [isHovered, setIsHovered] = useState(false);
   const Icon = item.icon;
   const isExpanded = isActive || isHovered;
@@ -136,7 +136,7 @@ export default function Navbar() {
     setTimeout(handleScroll, 100);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [activeHash]);
 
   return (
     <>

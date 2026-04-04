@@ -35,7 +35,7 @@ export default function Home() {
         {/* Contact Section */}
         <section id="contact" className="w-full text-center py-12 flex flex-col items-center justify-center gap-8">
           <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
-            Let's Build Something <br/> 
+            Let&apos;s Build Something <br/> 
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00E5FF] to-[#FF9900]">
               Extraordinary
             </span>
@@ -43,7 +43,7 @@ export default function Home() {
           <p className="text-white/70 max-w-2xl text-lg leading-relaxed">
             I am currently exploring new opportunities inside scalable environments. 
             Whether you have a strategic question or just want to collaborate, 
-            my inbox is always open. Let's engineer the future.
+            my inbox is always open. Let&apos;s engineer the future.
           </p>
           <a 
             href="mailto:sabyasachighosh008@gmail.com" 

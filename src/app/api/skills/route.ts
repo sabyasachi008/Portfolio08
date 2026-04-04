@@ -13,7 +13,6 @@ export async function GET() {
 
   return NextResponse.json(
     {
-      status: 200,
       message: "Skills retrieved successfully",
       data: skillsData
     },
