@@ -37,7 +37,7 @@ const certifications = [
 
 export default function Certifications() {
   return (
-    <section id="certifications" className="w-full relative flex justify-center items-center">
+    <section id="certifications" className="w-full relative flex flex-col justify-center items-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

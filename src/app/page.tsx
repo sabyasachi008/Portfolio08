@@ -9,6 +9,7 @@ import Certifications from "@/components/Certifications";
 import DeveloperTerminal from "@/components/DeveloperTerminal";
 import Footer from "@/components/Footer";
 import FloatingNodes from "@/components/FloatingNodes";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
@@ -33,25 +34,7 @@ export default function Home() {
         <Education />
         
         {/* Contact Section */}
-        <section id="contact" className="w-full text-center py-12 flex flex-col items-center justify-center gap-8">
-          <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
-            Let&apos;s Build Something <br/> 
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00E5FF] to-[#FF9900]">
-              Extraordinary
-            </span>
-          </h2>
-          <p className="text-white/70 max-w-2xl text-lg leading-relaxed">
-            I am currently exploring new opportunities inside scalable environments. 
-            Whether you have a strategic question or just want to collaborate, 
-            my inbox is always open. Let&apos;s engineer the future.
-          </p>
-          <a 
-            href="mailto:sabyasachighosh008@gmail.com" 
-            className="px-10 py-4 rounded-xl bg-[#FF9900] text-[#0A0F17] font-extrabold flex items-center justify-center gap-2 hover:bg-[#FF9900]/90 transition-all hover:-translate-y-1 shadow-[0_0_20px_rgba(255,153,0,0.3)] tracking-wide text-lg"
-          >
-            Get In Touch
-          </a>
-        </section>
+        <Contact />
       </div>
 
       <Footer />

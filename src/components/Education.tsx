@@ -12,7 +12,7 @@ export default function Education() {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="text-3xl md:text-5xl font-bold mb-12 flex items-center justify-center md:justify-start gap-3">
+        <h2 className="text-3xl md:text-5xl font-bold mb-12 flex items-center justify-center gap-3">
           <GraduationCap className="w-8 h-8 text-[#00E5FF]" />
           Education
         </h2>
